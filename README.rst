@@ -33,7 +33,7 @@ Configuration
 Configuration::
 
 * extensions - file extensions to bust
-* hash_size - looks something like this `/static/index.css%3Fq3` where [%3Fq3] is the hash size.
+* hash_size - number of characters in hash
 
 The http://flask.pocoo.org/docs/0.12/api/#flask.url_for function will now cache-bust your static files. For example, this template::
 
