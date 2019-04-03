@@ -41,5 +41,5 @@ The http://flask.pocoo.org/docs/0.12/api/#flask.url_for function will now cache-
 
 will render like this::
 
-<script src="/static/js/main.js?%3Fq%3Dc5b5b2fa19"></script>
+<script src="/static/js/main.js?q=c5b5b2fa19"></script>
 

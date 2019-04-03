@@ -26,7 +26,7 @@ The [`url_for`](http://flask.pocoo.org/docs/0.12/api/#flask.url_for) function wi
 will render like this:
 
 ```html
-<script src="/static/js/main.js?%3Fq%3Dc5b5b2fa19"></script>
+<script src="/static/js/main.js?q=c5b5b2fa19"></script>
 ```
 
 ### License
