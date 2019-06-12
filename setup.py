@@ -5,7 +5,7 @@ setup(
     description='Flask-CacheBuster is a lightweight Flask extension that adds a hash to the URL query parameters of each static file.',
     packages=['flask_cachebuster'],
     license='MIT',
-    url='https://github.com/israel-fl/Flask-CacheBuster',
+    url='https://github.com/israel-fl/Flask-CacheBust',
     install_requires=[
         'Flask',
     ],
