@@ -39,7 +39,6 @@ class CacheBuster:
             raise ValueError("`config` must be an instance of dict or None")
 
         bust_map = {}  # map from an unbusted filename to a busted one
-        unbust_map = {}  # map from a busted filename to an unbusted one
         # http://flask.pocoo.org/docs/0.12/api/#flask.Flask.static_folder
 
         app.logger.debug('Computing hashes for static assets...')
@@ -58,20 +57,13 @@ class CacheBuster:
 
                 # add version
                 unbusted = os.path.relpath(rooted_filename, app.static_folder)
-                # busted = os.path.join(version, unbusted)
-                busted = "{unbusted}?q={version}".format(
-                    unbusted=unbusted, version=version)
 
                 # save computation to map
-                bust_map[unbusted] = busted
-                unbust_map[busted] = unbusted
+                bust_map[unbusted] = version
         app.logger.info('Hashes generated for all static assets.')
 
         def bust_filename(file):
-            return bust_map.get(file, file)
-
-        def unbust_filename(file):
-            return unbust_map.get(file, file)
+            return bust_map.get(file, '')
 
         @app.url_defaults
         def reverse_to_cache_busted_url(endpoint, values):
@@ -80,15 +72,7 @@ class CacheBuster:
             endpoint.
             """
             if endpoint == 'static':
-                values['filename'] = bust_filename(values['filename'])
-
-        def debusting_static_view(*args, **kwargs):
-            """
-            Serve a request for a static file having a busted name.
-            """
-            kwargs['filename'] = unbust_filename(kwargs.get('filename'))
-            return original_static_view(*args, **kwargs)
+                values['q'] = bust_filename(values['filename'])
 
         # Replace the default static file view with our debusting view.
         original_static_view = app.view_functions['static']
-        app.view_functions['static'] = debusting_static_view

@@ -16,7 +16,7 @@ cache_buster.init_app(app)
 
 Configuration:
 * extensions - file extensions to bust
-* hash_size - looks something like this `/static/index.css%3Fq3` where [%3Fq3] is the hash size.
+* hash_size - number of characters in hash
 
 The [`url_for`](http://flask.pocoo.org/docs/0.12/api/#flask.url_for) function will now cache-bust your static files. For example, this template:
 
@@ -26,7 +26,7 @@ The [`url_for`](http://flask.pocoo.org/docs/0.12/api/#flask.url_for) function wi
 will render like this:
 
 ```html
-<script src="/static/js/main.js?%3Fq%3Dc5b5b2fa19"></script>
+<script src="/static/js/main.js?q=c5b5b2fa19"></script>
 ```
 
 ### License
