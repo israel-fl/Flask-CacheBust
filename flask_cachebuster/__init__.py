@@ -1,4 +1,5 @@
 import os
+import logging
 import hashlib
 from pathlib import Path
 
@@ -14,6 +15,8 @@ class CacheBuster:
         self.config = config
         self.extensions = self.config.get('extensions') if self.config else []
         self.hash_size = self.config.get('hash_size') if self.config else HASH_SIZE
+        if self.app is not None:
+            app.logger.setLevel(self.config.get('log_level', logging.INFO) if self.config else logging.INFO)
         if self.app is not None:
             self.register_cache_buster(app, config)
 
@@ -38,6 +41,8 @@ class CacheBuster:
         if not (config is None or isinstance(config, dict)):
             raise ValueError("`config` must be an instance of dict or None")
 
+        app.logger.setLevel(config.get('log_level', logging.INFO) if config else logging.INFO)
+        
         bust_map = {}  # map from an unbusted filename to a busted one
         # http://flask.pocoo.org/docs/0.12/api/#flask.Flask.static_folder
 
