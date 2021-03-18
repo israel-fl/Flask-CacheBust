@@ -12,8 +12,8 @@ class CacheBuster:
 
         self.app = app
         self.config = config
-        self.extensions = self.config.get('extensions') if self.config else []
-        self.hash_size = self.config.get('hash_size') if self.config else HASH_SIZE
+        self.extensions = self.config.get("extensions") if self.config else []
+        self.hash_size = self.config.get("hash_size") if self.config else HASH_SIZE
         if self.app is not None:
             self.register_cache_buster(app, config)
 
@@ -41,7 +41,7 @@ class CacheBuster:
         bust_map = {}  # map from an unbusted filename to a busted one
         # http://flask.pocoo.org/docs/0.12/api/#flask.Flask.static_folder
 
-        app.logger.debug('Computing hashes for static assets...')
+        app.logger.debug("Computing hashes for static assets...")
         # compute (un)bust tables.
         for dirpath, dirnames, filenames in os.walk(app.static_folder):
             for filename in filenames:
@@ -49,21 +49,19 @@ class CacheBuster:
                 rooted_filename = os.path.join(dirpath, filename)
                 if not self.__is_file_to_be_busted(rooted_filename):
                     continue
-                app.logger.debug('Computing hashes for {}'.format(rooted_filename))
-                with open(rooted_filename, 'rb') as f:
-                    version = hashlib.md5(
-                        f.read()
-                    ).hexdigest()[:self.hash_size]
+                app.logger.debug("Computing hashes for {}".format(rooted_filename))
+                with open(rooted_filename, "rb") as f:
+                    version = hashlib.md5(f.read()).hexdigest()[: self.hash_size]
 
                 # add version
                 unbusted = os.path.relpath(rooted_filename, app.static_folder)
 
                 # save computation to map
                 bust_map[unbusted] = version
-        app.logger.info('Hashes generated for all static assets.')
+        app.logger.info("Hashes generated for all static assets.")
 
         def bust_filename(file):
-            return bust_map.get(file, '')
+            return bust_map.get(file, "")
 
         @app.url_defaults
         def reverse_to_cache_busted_url(endpoint, values):
@@ -71,8 +69,8 @@ class CacheBuster:
             Make `url_for` produce busted filenames when using the 'static'
             endpoint.
             """
-            if endpoint == 'static':
-                values['q'] = bust_filename(values['filename'])
+            if endpoint == "static":
+                values["q"] = bust_filename(values["filename"])
 
         # Replace the default static file view with our debusting view.
-        original_static_view = app.view_functions['static']
+        original_static_view = app.view_functions["static"]
