@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="Flask-CacheBuster",
-    version="1.0.0",
+    version="1.0.1",
     description="Flask-CacheBuster is a lightweight Flask extension that adds a hash to the URL query parameters of each static file.",
     packages=["flask_cachebuster"],
     license="MIT",
