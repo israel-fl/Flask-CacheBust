@@ -58,7 +58,7 @@ class CacheBuster:
 
                 # save computation to map
                 bust_map[unbusted] = version
-        app.logger.info("Hashes generated for all static assets.")
+        app.logger.debug("Hashes generated for all static assets.")
 
         def bust_filename(file):
             return bust_map.get(file, "")
