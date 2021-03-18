@@ -71,6 +71,3 @@ class CacheBuster:
             """
             if endpoint == "static":
                 values["q"] = bust_filename(values["filename"])
-
-        # Replace the default static file view with our debusting view.
-        original_static_view = app.view_functions["static"]
